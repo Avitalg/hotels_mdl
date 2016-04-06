@@ -1,19 +1,10 @@
-var HotelsReview = require("./hotels");
-var eventsConfig = require("./config").events;
-var hotels = new HotelsReview();
+var http = require("http");
+var logs = require("./hotels_mdl/config").compilerLogs;
 
-hotels.on(eventsConfig.addStars, function(stars){
-	console.log("addStars: "+ stars);
-})
-
-hotels.on(eventsConfig.reduceStars, function(stars){
-	console.log("reduceStars: "+ stars);
-})
-
-hotels.on(eventsConfig.lowerStar, function(stars){
-	console.log("lowerStar: "+ stars);
-})
-
-hotels.addStars();
-hotels.reduceStars();
-hotels.reduceStars();
+http.createServer(function(req, res) {
+	res.writeHead(200);
+	var hotels = require("./hotels_mdl");
+	res.write(JSON.stringify(logs)+"\n");
+	res.end("Success\n");
+}).listen(8080);
+console.log("listening on port 8080");
